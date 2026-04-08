@@ -20,6 +20,7 @@ And the repository should contain:
 - `data/lineage/batch_lineage.json`
 - `data/lineage/data_dictionary.csv`
 - `data/lineage/validation_summary.csv`
+- `reports/batch_quality_scorecard.csv`
 - `reports/summary_report.md`
 - `reports/figures/null_rates.png`
 - `reports/figures/timestamp_diff_hist.png`

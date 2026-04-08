@@ -10,6 +10,7 @@ if str(ROOT) not in sys.path:
 
 from src.clean import batch_status, split_clean_and_rejected
 from src.eda import (
+    compute_surface_stats,
     plot_event_distribution,
     plot_null_rates,
     plot_timestamp_gap,
@@ -26,6 +27,21 @@ QUARANTINE_DIR = ROOT / "data/quarantine"
 REPORTS_DIR = ROOT / "reports"
 FIGURES_DIR = REPORTS_DIR / "figures"
 LINEAGE_LOG_PATH = LINEAGE_DIR / "batch_lineage.json"
+SCORECARD_PATH = REPORTS_DIR / "batch_quality_scorecard.csv"
+BATCH_SCORECARD_COLUMNS = [
+    "batch_id",
+    "status",
+    "rows_total",
+    "rows_preserved",
+    "rows_removed",
+    "duplicates",
+    "missing_user_id",
+    "timestamp_violations",
+    "session_order_violations",
+    "timestamp_violation_rate",
+    "decision_rule",
+    "quarantine_path",
+]
 
 
 def clear_previous_outputs() -> None:
@@ -37,6 +53,7 @@ def clear_previous_outputs() -> None:
         LINEAGE_DIR / "data_dictionary.csv",
         LINEAGE_DIR / "validation_summary.csv",
         REPORTS_DIR / "summary_report.md",
+        SCORECARD_PATH,
         FIGURES_DIR / "null_rates.png",
         FIGURES_DIR / "timestamp_diff_hist.png",
         FIGURES_DIR / "category_distribution.png",
@@ -64,6 +81,7 @@ def main() -> None:
     all_rejected = []
     accepted_batches = 0
     rejected_batches = 0
+    batch_records = []
     issue_totals = {
         "timestamp_violations": 0,
         "session_order_violations": 0,
@@ -86,6 +104,7 @@ def main() -> None:
             quarantine_path = QUARANTINE_DIR / batch_id
             quarantine_path.mkdir(parents=True, exist_ok=True)
             validated.to_csv(quarantine_path / f"{batch_id}.csv", index=False)
+            quarantine_path_str = quarantine_path.relative_to(ROOT).as_posix()
 
             append_lineage_log(
                 path=LINEAGE_LOG_PATH,
@@ -96,7 +115,23 @@ def main() -> None:
                 rows_removed=len(validated),
                 issues_found=summary,
                 decision_rule=decision,
-                quarantine_path=quarantine_path.relative_to(ROOT).as_posix(),
+                quarantine_path=quarantine_path_str,
+            )
+            batch_records.append(
+                {
+                    "batch_id": batch_id,
+                    "status": status,
+                    "rows_total": len(validated),
+                    "rows_preserved": 0,
+                    "rows_removed": len(validated),
+                    "duplicates": summary["duplicates"],
+                    "missing_user_id": summary["missing_user_id"],
+                    "timestamp_violations": summary["timestamp_violations"],
+                    "session_order_violations": summary["session_order_violations"],
+                    "timestamp_violation_rate": summary["timestamp_violation_rate"],
+                    "decision_rule": decision,
+                    "quarantine_path": quarantine_path_str,
+                }
             )
             all_rejected.append(validated)
             rejected_batches += 1
@@ -117,10 +152,27 @@ def main() -> None:
             issues_found=summary,
             decision_rule=decision,
         )
+        batch_records.append(
+            {
+                "batch_id": batch_id,
+                "status": status,
+                "rows_total": len(validated),
+                "rows_preserved": len(clean),
+                "rows_removed": len(rejected),
+                "duplicates": summary["duplicates"],
+                "missing_user_id": summary["missing_user_id"],
+                "timestamp_violations": summary["timestamp_violations"],
+                "session_order_violations": summary["session_order_violations"],
+                "timestamp_violation_rate": summary["timestamp_violation_rate"],
+                "decision_rule": decision,
+                "quarantine_path": "",
+            }
+        )
 
     clean_df = pd.concat(all_clean, ignore_index=True) if all_clean else pd.DataFrame()
     rejected_df = pd.concat(all_rejected, ignore_index=True) if all_rejected else pd.DataFrame()
     total_rows = int(len(clean_df) + len(rejected_df))
+    surface_stats = compute_surface_stats(clean_df)
 
     if not clean_df.empty:
         clean_df.to_csv(PROCESSED_DIR / "clean_logs.csv", index=False)
@@ -145,6 +197,7 @@ def main() -> None:
         ]
     )
     validation_summary.to_csv(LINEAGE_DIR / "validation_summary.csv", index=False)
+    pd.DataFrame(batch_records, columns=BATCH_SCORECARD_COLUMNS).to_csv(SCORECARD_PATH, index=False)
 
     write_summary_report(
         REPORTS_DIR / "summary_report.md",
@@ -163,11 +216,14 @@ def main() -> None:
             "data/lineage/batch_lineage.json",
             "data/lineage/data_dictionary.csv",
             "data/lineage/validation_summary.csv",
+            "reports/batch_quality_scorecard.csv",
             "reports/summary_report.md",
             "reports/figures/null_rates.png",
             "reports/figures/timestamp_diff_hist.png",
             "reports/figures/category_distribution.png",
         ],
+        scorecard_path="reports/batch_quality_scorecard.csv",
+        surface_stats=surface_stats,
     )
 
     print(
