@@ -1,22 +1,24 @@
 # Data Wrangling & QA Pipeline
 
-A showcase portfolio project for data quality, analytics engineering, and data wrangling roles.
+A portfolio project tailored for an **Associate Data Scientist (Data Wrangling & QA Engineering)** application.
 
-This repository demonstrates how to take messy operational event logs, validate them with explicit QA rules, separate clean and rejected records, quarantine bad batches, preserve lineage, and generate lightweight exploratory reporting for downstream analytics or AI teams.
+This repository is built around the exact kind of work described in the role: turning raw software logs, API records, and bug-report style data into clean, structured, analysis-ready outputs with explicit QA logic, metadata, lightweight EDA, and reviewer-friendly documentation.
 
-## Why This Is Portfolio-Worthy
-- It shows applied data cleaning, not just notebook exploration.
-- It treats data quality as an engineering workflow with repeatable rules.
-- It includes both Python and SQL checks, plus tests and reproducible outputs.
-- It makes auditability visible through lineage logs, validation summaries, and quarantine decisions.
+## Why This Matches The Role
+- **Data wrangling:** raw multi-batch software data is transformed into structured CSV and Parquet outputs.
+- **The janitor and the architect:** the pipeline flags missing values, removes duplicates, rejects impossible timestamps, and quarantines invalid batches.
+- **EDA before deep analysis:** it generates summary statistics, variances, charts, and a markdown report before any downstream modeling.
+- **Metadata management:** lineage logs, validation summaries, and a data dictionary explain where data came from and why rows or batches were changed.
+- **QA intuition:** the project is shaped around software-data edge cases such as timestamp leakage, duplicate events, and session-order violations.
+- **Communication:** outputs are split into technical artifacts and spreadsheet-friendly reviewer files that are easy to inspect in Excel or Google Sheets.
 
-## What This Project Demonstrates
-- ingestion and schema enforcement for raw multi-batch CSV inputs
-- row-level validation for duplicates, missing IDs, and temporal leakage
-- batch-level rejection when critical violation thresholds are exceeded
+## What This Portfolio Demonstrates
+- ingestion and schema enforcement for messy raw event-log batches
+- row-level validation for duplicates, missing IDs, and temporal anomalies
+- batch-level rejection policy when critical quality thresholds are exceeded
 - clean versus rejected dataset separation for downstream consumers
-- lineage documentation and reviewer-friendly reporting
-- lightweight EDA artifacts that help explain data quality issues quickly
+- lineage tracking that supports auditability and handoff to analytics or AI teams
+- initial analysis with charts plus mean and variance checks
 
 ## Portfolio Snapshot
 
@@ -33,22 +35,22 @@ This repository demonstrates how to take messy operational event logs, validate 
 
 ```mermaid
 flowchart LR
-    A["Raw batches in data/raw"] --> B["Schema + ingestion checks"]
+    A["Raw software data (logs, API-style records, bug fields)"] --> B["Schema + ingestion checks"]
     B --> C["Validation flags"]
     C --> D["Row-level clean/reject split"]
     C --> E["Batch-level quarantine decision"]
-    D --> F["Processed clean and rejected outputs"]
+    D --> F["Processed CSV and Parquet outputs"]
     E --> G["Quarantine folder"]
-    C --> H["Lineage log + validation summary"]
-    F --> I["EDA figures + markdown report"]
+    C --> H["Lineage log + validation summary + data dictionary"]
+    F --> I["EDA report, charts, and spreadsheet-ready scorecard"]
 ```
 
 ## Key Quality Rules
-- Reject duplicate events based on user, timestamp, event type, and session.
-- Reject records with missing `user_id`.
-- Reject records where `action_timestamp < account_created`.
-- Reject records where `session_end < session_start`.
-- Reject an entire batch when timestamp leakage exceeds 10 percent.
+- reject duplicate events based on user, timestamp, event type, and session
+- reject records with missing `user_id`
+- reject records where `action_timestamp < account_created`
+- reject records where `session_end < session_start`
+- reject an entire batch when timestamp leakage exceeds 10 percent
 
 ## Tech Stack
 - Python
@@ -62,12 +64,12 @@ flowchart LR
 ## Repository Tour
 - `src/`: ingestion, validation, cleaning, lineage, and EDA logic
 - `sql/`: SQL-based null, surface, and temporal checks
-- `data/raw/`: sample messy event-log batches
-- `data/processed/`: browser-friendly CSV snapshots plus locally generated Parquet outputs
+- `data/raw/`: sample messy software-data batches
+- `data/processed/`: clean and rejected outputs in CSV, plus local Parquet exports
 - `data/quarantine/`: fully rejected batches
-- `data/lineage/`: data dictionary, validation summary, and batch lineage log
-- `reports/`: markdown report and generated charts
-- `examples/`: runnable example entrypoint and expected output notes
+- `data/lineage/`: batch lineage log, validation summary, and data dictionary
+- `reports/`: markdown report, reviewer scorecard, and generated figures
+- `examples/`: runnable pipeline entrypoint and expected-output notes
 - `tests/`: unit tests covering ingest, validation, cleaning, and lineage behavior
 
 ## Quick Start
@@ -85,14 +87,16 @@ python -m pytest -q
 - `data/lineage/batch_lineage.json`
 - `data/lineage/data_dictionary.csv`
 - `data/lineage/validation_summary.csv`
+- `reports/batch_quality_scorecard.csv`
 - `reports/summary_report.md`
 - `reports/figures/*.png`
 
-## What A Reviewer Should Notice
-- The project is structured like a small production-quality pipeline rather than a single notebook.
-- Validation is explicit, testable, and visible in both code and outputs.
-- The repository balances technical rigor with communication artifacts a stakeholder can actually review.
-- The example data includes both row-level issues and a fully quarantined batch to show decision logic.
+## What A Hiring Reviewer Should Notice
+- This repo is structured like a compact ETL and QA pipeline, not just an exploratory notebook.
+- The project explicitly bridges raw software data and downstream analytics-ready datasets.
+- Validation logic is visible, testable, and easy to explain to technical and non-technical stakeholders.
+- The scorecard and CSV outputs are ready to open in Excel or Google Sheets for wider team review.
+- The project shows comfort with software lifecycle-style thinking, where data issues are treated like defects that need triage, explanation, and documentation.
 
 ## Sample Report Artifacts
 
@@ -100,9 +104,14 @@ python -m pytest -q
 
 ![Timestamp gap distribution](reports/figures/timestamp_diff_hist.png)
 
+## Application Support
+- See [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) for the technical framing.
+- See [APPLICATION_SUMMARY.md](APPLICATION_SUMMARY.md) for a concise, role-tailored summary of the experience this project demonstrates.
+- See [reports/summary_report.md](reports/summary_report.md) and [reports/batch_quality_scorecard.csv](reports/batch_quality_scorecard.csv) for the latest generated evidence artifacts.
+
 ## Fast Review Path
-1. Read [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) for the technical framing.
-2. Open [reports/summary_report.md](reports/summary_report.md) for the latest generated run summary.
-3. Inspect [data/lineage/batch_lineage.json](data/lineage/batch_lineage.json) for batch-level decisions.
-4. Run `python examples/run_pipeline.py` to regenerate outputs from scratch.
-5. Run `python -m pytest -q` to verify the core logic.
+1. Read [APPLICATION_SUMMARY.md](APPLICATION_SUMMARY.md).
+2. Open [reports/summary_report.md](reports/summary_report.md).
+3. Inspect [data/lineage/batch_lineage.json](data/lineage/batch_lineage.json).
+4. Review [examples/run_pipeline.py](examples/run_pipeline.py).
+5. Run `python examples/run_pipeline.py` and `python -m pytest -q`.

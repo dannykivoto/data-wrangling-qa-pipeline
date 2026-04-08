@@ -13,10 +13,19 @@
 - Timestamp violations flagged: 5
 - Session-order violations flagged: 0
 
+## Initial Analysis (EDA)
+- Mean API status: 300.00
+- Variance of API status: 20000.00
+- Mean minutes from account creation to action: 8.17
+- Variance of account-to-action minutes: 98.47
+- Mean session duration (minutes): 16.08
+- Variance of session duration (minutes): 83.53
+
 ## Notes
 - Rows can be rejected for duplicates, missing IDs, or impossible time relationships.
 - Entire batches can be quarantined when critical timestamp leakage exceeds policy thresholds.
 - Batch decision details are stored in `data/lineage/batch_lineage.json`.
+- Spreadsheet-friendly reviewer output is stored in `reports/batch_quality_scorecard.csv`.
 
 ## Generated Outputs
 - `data/processed/clean_logs.csv`
@@ -26,6 +35,7 @@
 - `data/lineage/batch_lineage.json`
 - `data/lineage/data_dictionary.csv`
 - `data/lineage/validation_summary.csv`
+- `reports/batch_quality_scorecard.csv`
 - `reports/summary_report.md`
 - `reports/figures/null_rates.png`
 - `reports/figures/timestamp_diff_hist.png`
