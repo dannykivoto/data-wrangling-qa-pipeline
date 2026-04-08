@@ -1,0 +1,8 @@
+batch_id,user_id,account_created,action_timestamp,event_type,session_id,session_start,session_end,bug_type,severity,api_status,country,flag_time_violation,flag_session_order,flag_duplicate,flag_missing_user_id
+batch_001,u002,2026-03-02 09:00:00,2026-03-02 09:01:00,login,s002,2026-03-02 09:01:00,2026-03-02 09:10:00,,,200,UG,False,False,True,False
+batch_001,,2026-03-04 12:00:00,2026-03-04 12:07:00,api_call,s004,2026-03-04 12:06:00,2026-03-04 12:09:00,,,503,TZ,False,False,False,True
+batch_002,u100,2026-03-10 10:00:00,2026-03-09 10:00:00,login,s100,2026-03-10 10:01:00,2026-03-10 10:10:00,,,200,KE,True,False,False,False
+batch_002,u101,2026-03-11 09:00:00,2026-03-10 08:00:00,view_dashboard,s101,2026-03-11 09:01:00,2026-03-11 09:11:00,,,200,KE,True,False,False,False
+batch_002,u102,2026-03-11 09:00:00,2026-03-10 07:30:00,api_call,s102,2026-03-11 09:01:00,2026-03-11 09:02:00,,,500,UG,True,False,False,False
+batch_002,u103,2026-03-12 12:00:00,2026-03-11 08:00:00,bug_report,s103,2026-03-12 12:01:00,2026-03-12 12:20:00,UI glitch,low,500,TZ,True,False,False,False
+batch_002,u104,2026-03-12 12:00:00,2026-03-11 08:10:00,login,s104,2026-03-12 12:02:00,2026-03-12 12:22:00,,,200,TZ,True,False,False,False

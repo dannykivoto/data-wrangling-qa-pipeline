@@ -1,0 +1,47 @@
+from pathlib import Path
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def write_summary_report(path: str | Path, accepted_rows: int, rejected_rows: int, batch_log_path: str) -> None:
+    content = f"""# Validation Summary Report
+
+## Result
+- Accepted rows: {accepted_rows}
+- Rejected rows: {rejected_rows}
+
+## Notes
+- Rows can be rejected for duplicates, missing IDs, or impossible time relationships.
+- Entire batches can be quarantined when critical timestamp leakage exceeds policy thresholds.
+- Batch decision details are stored in `{batch_log_path}`.
+"""
+    Path(path).write_text(content, encoding="utf-8")
+
+def plot_null_rates(df: pd.DataFrame, path: str | Path) -> None:
+    null_rates = df.isna().mean().sort_values(ascending=False)
+    plt.figure(figsize=(8, 4.5))
+    null_rates.plot(kind="bar")
+    plt.title("Null rate by column")
+    plt.ylabel("Fraction null")
+    plt.tight_layout()
+    plt.savefig(path, dpi=180)
+    plt.close()
+
+def plot_timestamp_gap(df: pd.DataFrame, path: str | Path) -> None:
+    gap_minutes = (df["action_timestamp"] - df["account_created"]).dt.total_seconds() / 60
+    plt.figure(figsize=(8, 4.5))
+    gap_minutes.plot(kind="hist", bins=15)
+    plt.title("Action timestamp minus account creation (minutes)")
+    plt.xlabel("Minutes")
+    plt.tight_layout()
+    plt.savefig(path, dpi=180)
+    plt.close()
+
+def plot_event_distribution(df: pd.DataFrame, path: str | Path) -> None:
+    counts = df["event_type"].value_counts()
+    plt.figure(figsize=(8, 4.5))
+    counts.plot(kind="bar")
+    plt.title("Event type distribution")
+    plt.ylabel("Count")
+    plt.tight_layout()
+    plt.savefig(path, dpi=180)
+    plt.close()
