@@ -52,3 +52,7 @@ def append_lineage_log(
 
     data.append(payload)
     path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+
+def reset_lineage_log(path: str | Path) -> None:
+    Path(path).write_text("[]\n", encoding="utf-8")
