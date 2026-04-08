@@ -1,32 +1,28 @@
 # Submission Notes
 
-## Included Structure
-This submission now includes the expected portfolio-ready repository shape at the project root:
-- `README.md`
-- `PROJECT_OVERVIEW.md`
-- `SUBMISSION_NOTES.md`
-- `requirements.txt`
-- `.gitignore`
-- `LICENSE`
-- `data/`
-- `src/`
-- `sql/`
-- `examples/`
-- `tests/`
-- `reports/`
+## Reviewer Intent
+This repository is organized to be easy for both hiring managers and technical reviewers to evaluate quickly. It combines a runnable pipeline, explicit QA logic, generated artifacts, and tests in one place.
 
-## What Was Corrected
-- flattened the project so the actual repo contents live at the workspace root instead of inside a nested folder
-- confirmed `null_checks.sql` is inside `sql/`
-- confirmed `src/` includes the full pipeline modules: `ingest.py`, `validate.py`, `clean.py`, `lineage.py`, `eda.py`, `schema.py`, and `__init__.py`
-- retained example, report, and test directories at the root
-- removed generated `__pycache__/` artifacts from `src/`
+## Best 3-Minute Review Path
+1. Start with [README.md](README.md) for the project story and outcomes.
+2. Open [reports/summary_report.md](reports/summary_report.md) for the latest run summary.
+3. Inspect [data/lineage/batch_lineage.json](data/lineage/batch_lineage.json) to see accepted versus quarantined batch decisions.
+4. Review [examples/run_pipeline.py](examples/run_pipeline.py) to understand the orchestration flow.
+5. Check [tests/](tests/) for the core validation coverage.
 
-## Suggested Reviewer Flow
-1. Read `README.md` for the quick project summary.
-2. Review `PROJECT_OVERVIEW.md` for the pipeline design and QA framing.
-3. Run `python examples/run_pipeline.py` to generate outputs.
-4. Run `pytest` to validate the core cleaning, lineage, and validation logic.
+## What Was Improved For Portfolio Use
+- aligned the repository structure with a clean, submission-ready layout
+- fixed the demo run command so `python examples/run_pipeline.py` works directly from the repo root
+- made the pipeline rerunnable without duplicating lineage entries or leaving stale outputs behind
+- kept browser-friendly sample outputs in CSV while also generating Parquet for local runs
+- upgraded the README and overview docs to highlight business value, engineering choices, and reviewer guidance
+- expanded test coverage for ingest and missing-ID validation behavior
+
+## Validation
+- `python examples/run_pipeline.py`
+- `python -m pytest -q`
 
 ## Notes
-The repository also includes a `notebooks/` directory for exploratory work. It is not required for the main pipeline run, but it can help illustrate the analysis process behind the final outputs.
+- The sample data is synthetic and intentionally messy so the quality rules are visible.
+- Figures under `reports/figures/` are included as showcase artifacts for GitHub review.
+- Parquet outputs are generated locally and ignored in git to keep the repository reviewer-friendly.

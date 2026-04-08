@@ -28,7 +28,8 @@ def flag_duplicates(df: pd.DataFrame) -> pd.DataFrame:
 
 def flag_missing_user_id(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
-    df["flag_missing_user_id"] = df["user_id"].astype(str).str.strip().eq("")
+    user_id = df["user_id"].astype("string")
+    df["flag_missing_user_id"] = user_id.isna() | user_id.str.strip().eq("")
     return df
 
 def add_validation_flags(df: pd.DataFrame) -> pd.DataFrame:

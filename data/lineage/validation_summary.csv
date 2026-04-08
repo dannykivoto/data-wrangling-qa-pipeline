@@ -1,2 +1,2 @@
-accepted_rows,rejected_rows
-6,7
+input_rows,accepted_rows,rejected_rows,accepted_batches,rejected_batches
+13,6,7,1,1
