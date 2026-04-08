@@ -1,25 +1,32 @@
 # Submission Notes
 
-This repository was prepared as a targeted portfolio project for a Data Wrangling / QA Engineering role.
+## Included Structure
+This submission now includes the expected portfolio-ready repository shape at the project root:
+- `README.md`
+- `PROJECT_OVERVIEW.md`
+- `SUBMISSION_NOTES.md`
+- `requirements.txt`
+- `.gitignore`
+- `LICENSE`
+- `data/`
+- `src/`
+- `sql/`
+- `examples/`
+- `tests/`
+- `reports/`
 
-## What it demonstrates
-- Cleaning messy software-event data
-- Enforcing schema and timestamp logic
-- Rejecting invalid batches using documented rules
-- Preserving data lineage and a machine-readable audit trail
-- Performing lightweight EDA before deeper analysis
-- Using both Python and SQL for validation workflows
+## What Was Corrected
+- flattened the project so the actual repo contents live at the workspace root instead of inside a nested folder
+- confirmed `null_checks.sql` is inside `sql/`
+- confirmed `src/` includes the full pipeline modules: `ingest.py`, `validate.py`, `clean.py`, `lineage.py`, `eda.py`, `schema.py`, and `__init__.py`
+- retained example, report, and test directories at the root
+- removed generated `__pycache__/` artifacts from `src/`
 
-## Recommended files to review first
-1. `README.md`
-2. `examples/run_pipeline.py`
-3. `src/validate.py`
-4. `src/lineage.py`
-5. `data/lineage/batch_lineage.json`
-6. `reports/summary_report.md`
+## Suggested Reviewer Flow
+1. Read `README.md` for the quick project summary.
+2. Review `PROJECT_OVERVIEW.md` for the pipeline design and QA framing.
+3. Run `python examples/run_pipeline.py` to generate outputs.
+4. Run `pytest` to validate the core cleaning, lineage, and validation logic.
 
-## Best talking points in an interview
-- Why temporal validation is the first high-priority check
-- How row-level rejection differs from full-batch quarantine
-- Why lineage logging matters for analysts and AI systems
-- How this design scales to large CSVs using Polars / DuckDB
+## Notes
+The repository also includes a `notebooks/` directory for exploratory work. It is not required for the main pipeline run, but it can help illustrate the analysis process behind the final outputs.

@@ -1,0 +1,31 @@
+[
+  {
+    "batch_id": "batch_001",
+    "status": "accepted",
+    "rows_total": 8,
+    "rows_preserved": 6,
+    "rows_removed": 2,
+    "issues_found": {
+      "timestamp_violations": 0,
+      "session_order_violations": 0,
+      "duplicates": 1,
+      "missing_user_id": 1
+    },
+    "decision_rule": "Accepted because critical timestamp violation rate remained at or below 10%"
+  },
+  {
+    "batch_id": "batch_002",
+    "status": "rejected",
+    "rows_total": 5,
+    "rows_preserved": 0,
+    "rows_removed": 5,
+    "issues_found": {
+      "timestamp_violations": 5,
+      "session_order_violations": 0,
+      "duplicates": 0,
+      "missing_user_id": 0
+    },
+    "decision_rule": "Rejected because timestamp violation rate exceeded 10%",
+    "quarantine_path": "data/quarantine/batch_002/"
+  }
+]
