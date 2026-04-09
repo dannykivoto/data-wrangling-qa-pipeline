@@ -1,0 +1,182 @@
+{
+  "generated_at_utc": "2026-04-08T22:35:26+00:00",
+  "schema_version": "2026.04",
+  "validation_policy": {
+    "timestamp_violation_rate_threshold": 0.1,
+    "modified_zscore_threshold": 3.5
+  },
+  "dataset_counts": {
+    "accepted_rows": 6,
+    "rejected_rows": 7,
+    "accepted_batches": 1,
+    "rejected_batches": 1
+  },
+  "advanced_findings": {
+    "dominant_event_type": "login",
+    "event_type_entropy_bits": 1.9182958340544896,
+    "account_to_action_modified_zscore_outliers": 1,
+    "session_duration_modified_zscore_outliers": 0
+  },
+  "accepted_numeric_profiles": {
+    "api_status": {
+      "count_non_null": 6,
+      "mean": 300.0,
+      "variance": 20000.0,
+      "std_dev": 141.4213562373095,
+      "median": 200.0,
+      "iqr": 225.0,
+      "mad": 0.0,
+      "min": 200.0,
+      "max": 500.0,
+      "modified_zscore_outliers": 0
+    },
+    "account_to_action_minutes": {
+      "count_non_null": 6,
+      "mean": 8.166666666666666,
+      "variance": 98.47222222222224,
+      "std_dev": 9.923317097736131,
+      "median": 5.0,
+      "iqr": 3.0,
+      "mad": 2.0,
+      "min": 1.0,
+      "max": 30.0,
+      "modified_zscore_outliers": 1
+    },
+    "session_duration_minutes": {
+      "count_non_null": 6,
+      "mean": 16.083333333333332,
+      "variance": 83.53472222222221,
+      "std_dev": 9.139733159246074,
+      "median": 16.0,
+      "iqr": 13.5,
+      "mad": 9.0,
+      "min": 1.5,
+      "max": 27.0,
+      "modified_zscore_outliers": 0
+    }
+  },
+  "accepted_categorical_profiles": {
+    "event_type": {
+      "count_non_null": 6,
+      "unique_count": 4,
+      "mode": "login",
+      "mode_share": 0.3333333333333333,
+      "entropy_bits": 1.9182958340544896
+    },
+    "bug_type": {
+      "count_non_null": 2,
+      "unique_count": 2,
+      "mode": "UI glitch",
+      "mode_share": 0.5,
+      "entropy_bits": 1.0
+    },
+    "severity": {
+      "count_non_null": 2,
+      "unique_count": 2,
+      "mode": "low",
+      "mode_share": 0.5,
+      "entropy_bits": 1.0
+    },
+    "country": {
+      "count_non_null": 6,
+      "unique_count": 3,
+      "mode": "KE",
+      "mode_share": 0.6666666666666666,
+      "entropy_bits": 1.2516291673878228
+    }
+  },
+  "rejected_dataset_counts": {
+    "rows": 7,
+    "batches": 1
+  },
+  "batch_quality_records": [
+    {
+      "batch_id": "batch_001",
+      "status": "accepted",
+      "rows_total": 8,
+      "duplicates": 1,
+      "missing_user_id": 1,
+      "timestamp_violations": 0,
+      "session_order_violations": 0,
+      "timestamp_violation_rate": 0.0,
+      "session_order_violation_rate": 0.0,
+      "duplicate_rate": 0.125,
+      "missing_user_id_rate": 0.125,
+      "decision_rule": "Accepted because critical timestamp violation rate remained at or below 10%",
+      "rows_preserved": 6,
+      "rows_removed": 2,
+      "quarantine_path": ""
+    },
+    {
+      "batch_id": "batch_002",
+      "status": "rejected",
+      "rows_total": 5,
+      "duplicates": 0,
+      "missing_user_id": 0,
+      "timestamp_violations": 5,
+      "session_order_violations": 0,
+      "timestamp_violation_rate": 1.0,
+      "session_order_violation_rate": 0.0,
+      "duplicate_rate": 0.0,
+      "missing_user_id_rate": 0.0,
+      "decision_rule": "Rejected because timestamp violation rate exceeded 10%",
+      "rows_preserved": 0,
+      "rows_removed": 5,
+      "quarantine_path": "data/quarantine/batch_002"
+    }
+  ],
+  "source_files": [
+    {
+      "file_name": "synthetic_logs_batch_001.csv",
+      "relative_path": "data/raw/synthetic_logs_batch_001.csv",
+      "size_bytes": 1111,
+      "row_count": 8,
+      "sha256": "1852d873252847d5db04677436726f908322b72c13ba242f7491d6132b0a2017"
+    },
+    {
+      "file_name": "synthetic_logs_batch_002.csv",
+      "relative_path": "data/raw/synthetic_logs_batch_002.csv",
+      "size_bytes": 745,
+      "row_count": 5,
+      "sha256": "5c632ff3bc1a791ed9b805aca09e21ffc6735ba6885ebe3334e6727d271eaf31"
+    }
+  ],
+  "rejected_numeric_profiles": {
+    "api_status": {
+      "count_non_null": 7,
+      "mean": 329.0,
+      "variance": 22188.85714285714,
+      "std_dev": 148.95924658394705,
+      "median": 200.0,
+      "iqr": 300.0,
+      "mad": 0.0,
+      "min": 200.0,
+      "max": 503.0,
+      "modified_zscore_outliers": 0
+    },
+    "account_to_action_minutes": {
+      "count_non_null": 7,
+      "mean": -1116.0,
+      "variance": 508236.85714285716,
+      "std_dev": 712.9073271771424,
+      "median": -1500.0,
+      "iqr": 880.5,
+      "mad": 170.0,
+      "min": -1680.0,
+      "max": 7.0,
+      "modified_zscore_outliers": 2
+    },
+    "session_duration_minutes": {
+      "count_non_null": 7,
+      "mean": 10.142857142857142,
+      "variance": 44.693877551020414,
+      "std_dev": 6.685347975312909,
+      "median": 9.0,
+      "iqr": 8.5,
+      "mad": 6.0,
+      "min": 1.0,
+      "max": 20.0,
+      "modified_zscore_outliers": 0
+    }
+  }
+}

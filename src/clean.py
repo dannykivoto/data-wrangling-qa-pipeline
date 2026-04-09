@@ -1,4 +1,6 @@
 import pandas as pd
+
+from .schema import DEFAULT_VALIDATION_POLICY
 from .validate import summarize_flags
 
 def standardize_text(df: pd.DataFrame) -> pd.DataFrame:
@@ -22,7 +24,10 @@ def split_clean_and_rejected(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFra
     clean = df[~reject_mask].copy()
     return clean, rejected
 
-def batch_status(df: pd.DataFrame, threshold: float = 0.10) -> tuple[str, str]:
+def batch_status(
+    df: pd.DataFrame,
+    threshold: float = DEFAULT_VALIDATION_POLICY.timestamp_violation_rate_threshold,
+) -> tuple[str, str]:
     summary = summarize_flags(df)
     if summary["timestamp_violation_rate"] > threshold:
         return "rejected", f"Rejected because timestamp violation rate exceeded {int(threshold * 100)}%"

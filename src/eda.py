@@ -57,7 +57,16 @@ def write_summary_report(
     generated_outputs: list[str],
     scorecard_path: str,
     surface_stats: dict[str, float],
+    dataset_profile_path: str,
+    column_profile_path: str,
+    run_metadata_path: str,
+    advanced_findings: dict[str, object],
 ) -> None:
+    dominant_event_type = advanced_findings.get("dominant_event_type", "")
+    event_entropy_bits = float(advanced_findings.get("event_type_entropy_bits", 0.0))
+    account_gap_outliers = int(advanced_findings.get("account_to_action_modified_zscore_outliers", 0))
+    session_duration_outliers = int(advanced_findings.get("session_duration_modified_zscore_outliers", 0))
+
     content = f"""# Validation Summary Report
 
 ## Result
@@ -81,15 +90,25 @@ def write_summary_report(
 - Mean session duration (minutes): {surface_stats["session_duration_minutes_mean"]:.2f}
 - Variance of session duration (minutes): {surface_stats["session_duration_minutes_variance"]:.2f}
 
+## Advanced Diagnostics
+- Dominant clean event type: {dominant_event_type or "n/a"}
+- Event-type entropy (bits): {event_entropy_bits:.2f}
+- Robust outliers in account-to-action minutes: {account_gap_outliers}
+- Robust outliers in session duration minutes: {session_duration_outliers}
+
 ## Notes
 - Rows can be rejected for duplicates, missing IDs, or impossible time relationships.
 - Entire batches can be quarantined when critical timestamp leakage exceeds policy thresholds.
 - Batch decision details are stored in `{batch_log_path}`.
 - Spreadsheet-friendly reviewer output is stored in `{scorecard_path}`.
+- Full dataset profile is stored in `{dataset_profile_path}`.
+- Column-quality profile is stored in `{column_profile_path}`.
+- Run metadata and provenance are stored in `{run_metadata_path}`.
 
 ## Generated Outputs
 """ + "\n".join(f"- `{output}`" for output in generated_outputs) + "\n"
     Path(path).write_text(content, encoding="utf-8")
+
 
 def plot_null_rates(df: pd.DataFrame, path: str | Path) -> None:
     null_rates = df.isna().mean().sort_values(ascending=False)
@@ -101,6 +120,7 @@ def plot_null_rates(df: pd.DataFrame, path: str | Path) -> None:
     plt.savefig(path, dpi=180)
     plt.close()
 
+
 def plot_timestamp_gap(df: pd.DataFrame, path: str | Path) -> None:
     gap_minutes = (df["action_timestamp"] - df["account_created"]).dt.total_seconds() / 60
     plt.figure(figsize=(8, 4.5))
@@ -110,6 +130,7 @@ def plot_timestamp_gap(df: pd.DataFrame, path: str | Path) -> None:
     plt.tight_layout()
     plt.savefig(path, dpi=180)
     plt.close()
+
 
 def plot_event_distribution(df: pd.DataFrame, path: str | Path) -> None:
     counts = df["event_type"].value_counts()

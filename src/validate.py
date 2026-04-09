@@ -49,4 +49,7 @@ def summarize_flags(df: pd.DataFrame) -> dict:
         "duplicates": int(df["flag_duplicate"].sum()),
         "missing_user_id": int(df["flag_missing_user_id"].sum()),
         "timestamp_violation_rate": float(df["flag_time_violation"].sum() / total),
+        "session_order_violation_rate": float(df["flag_session_order"].sum() / total),
+        "duplicate_rate": float(df["flag_duplicate"].sum() / total),
+        "missing_user_id_rate": float(df["flag_missing_user_id"].sum() / total),
     }

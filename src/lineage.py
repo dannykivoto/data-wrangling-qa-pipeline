@@ -1,25 +1,20 @@
 from __future__ import annotations
+
 import json
 from pathlib import Path
+
 import pandas as pd
 
+from .schema import COLUMN_DICTIONARY
+
+
 def update_data_dictionary(path: str | Path, df: pd.DataFrame) -> None:
-    entries = [
-        ("batch_id","string","Source batch identifier","raw","None"),
-        ("user_id","string","Unique user identifier","raw","trimmed"),
-        ("account_created","datetime","Account creation timestamp","raw","parsed to datetime"),
-        ("action_timestamp","datetime","Action event timestamp","raw","parsed to datetime"),
-        ("event_type","string","Type of user action","raw","lowercased"),
-        ("session_id","string","Session identifier","raw","None"),
-        ("session_start","datetime","Session start time","raw","parsed to datetime"),
-        ("session_end","datetime","Session end time","raw","parsed to datetime"),
-        ("bug_type","string","Bug classification if present","raw","trimmed"),
-        ("severity","string","Bug severity label","raw","lowercased"),
-        ("api_status","int","API response status","raw","None"),
-        ("country","string","Country code","raw","uppercased"),
-    ]
-    out = pd.DataFrame(entries, columns=["column_name","data_type","description","source","transformation"])
+    out = pd.DataFrame(
+        COLUMN_DICTIONARY,
+        columns=["column_name", "data_type", "description", "source", "transformation"],
+    )
     out.to_csv(path, index=False)
+
 
 def append_lineage_log(
     path: str | Path,
@@ -56,3 +51,7 @@ def append_lineage_log(
 
 def reset_lineage_log(path: str | Path) -> None:
     Path(path).write_text("[]\n", encoding="utf-8")
+
+
+def write_run_metadata(path: str | Path, payload: dict[str, object]) -> None:
+    Path(path).write_text(json.dumps(payload, indent=2), encoding="utf-8")

@@ -1,0 +1,46 @@
+{
+  "generated_at_utc": "2026-04-08T22:35:26+00:00",
+  "schema_version": "2026.04",
+  "validation_policy": {
+    "timestamp_violation_rate_threshold": 0.1,
+    "modified_zscore_threshold": 3.5
+  },
+  "input_rows": 13,
+  "accepted_rows": 6,
+  "rejected_rows": 7,
+  "accepted_batches": 1,
+  "rejected_batches": 1,
+  "source_files": [
+    {
+      "file_name": "synthetic_logs_batch_001.csv",
+      "relative_path": "data/raw/synthetic_logs_batch_001.csv",
+      "size_bytes": 1111,
+      "row_count": 8,
+      "sha256": "1852d873252847d5db04677436726f908322b72c13ba242f7491d6132b0a2017"
+    },
+    {
+      "file_name": "synthetic_logs_batch_002.csv",
+      "relative_path": "data/raw/synthetic_logs_batch_002.csv",
+      "size_bytes": 745,
+      "row_count": 5,
+      "sha256": "5c632ff3bc1a791ed9b805aca09e21ffc6735ba6885ebe3334e6727d271eaf31"
+    }
+  ],
+  "generated_outputs": [
+    "data/processed/clean_logs.csv",
+    "data/processed/clean_logs.parquet",
+    "data/processed/rejected_rows.csv",
+    "data/processed/rejected_rows.parquet",
+    "data/lineage/batch_lineage.json",
+    "data/lineage/data_dictionary.csv",
+    "data/lineage/validation_summary.csv",
+    "data/lineage/run_metadata.json",
+    "reports/batch_quality_scorecard.csv",
+    "reports/column_quality_profile.csv",
+    "reports/dataset_profile.json",
+    "reports/summary_report.md",
+    "reports/figures/null_rates.png",
+    "reports/figures/timestamp_diff_hist.png",
+    "reports/figures/category_distribution.png"
+  ]
+}

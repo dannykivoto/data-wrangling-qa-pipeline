@@ -11,7 +11,10 @@
       "session_order_violations": 0,
       "duplicates": 1,
       "missing_user_id": 1,
-      "timestamp_violation_rate": 0.0
+      "timestamp_violation_rate": 0.0,
+      "session_order_violation_rate": 0.0,
+      "duplicate_rate": 0.125,
+      "missing_user_id_rate": 0.125
     },
     "decision_rule": "Accepted because critical timestamp violation rate remained at or below 10%"
   },
@@ -27,7 +30,10 @@
       "session_order_violations": 0,
       "duplicates": 0,
       "missing_user_id": 0,
-      "timestamp_violation_rate": 1.0
+      "timestamp_violation_rate": 1.0,
+      "session_order_violation_rate": 0.0,
+      "duplicate_rate": 0.0,
+      "missing_user_id_rate": 0.0
     },
     "decision_rule": "Rejected because timestamp violation rate exceeded 10%",
     "quarantine_path": "data/quarantine/batch_002"
